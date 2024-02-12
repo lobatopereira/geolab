@@ -1,5 +1,5 @@
 import os, hashlib
-import numpy as np
+# import numpy as np
 from uuid import uuid4
 
 def upload_profile(instance, filename):

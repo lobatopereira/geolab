@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-import numpy as np
+# import numpy as np
 from django.db.models import Count, Q
 from django.db.models import Sum
 from rest_framework.views import APIView
