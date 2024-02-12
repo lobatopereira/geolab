@@ -1,0 +1,264 @@
+{% load static %}
+<!--begin::Modal - Create App-->
+{% if page == 'dash' %}
+		<div class="modal fade my-5" id="modal_id_create_equipment_quantity-{{obj.hashed}}" tabindex="-1" aria-hidden="true">
+			<!--begin::Modal dialog-->
+			<div class="modal-dialog modal-dialog-centered mw-900px">
+				<!--begin::Modal content-->
+				<div class="modal-content">
+					<!--begin::Modal header-->
+					<div class="modal-header">
+						<!--begin::Modal title-->
+						<h2>Konfigura Kuantidade Ekipamentu</h2>
+						<!--end::Modal title-->
+						<!--begin::Close-->
+						<div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+							<!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+							<span class="svg-icon svg-icon-1">
+								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+									<rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1" transform="rotate(-45 6 17.3137)" fill="black" />
+									<rect x="7.41422" y="6" width="16" height="2" rx="1" transform="rotate(45 7.41422 6)" fill="black" />
+								</svg>
+							</span>
+							<!--end::Svg Icon-->
+						</div>
+						<!--end::Close-->
+					</div>
+					<!--end::Modal header-->
+					<!--begin::Modal body-->
+					<div class="modal-body py-lg-10 px-lg-10">
+						<!--begin::Stepper-->
+						<div class="stepper stepper-pills stepper-column d-flex flex-column flex-xl-row flex-row-fluid" id="kt_modal_create_app_stepper">
+							<!--begin::Content-->
+							<div class="flex-row-fluid py-lg-5 px-lg-15">
+								<!--begin::Form-->
+								<form class="form" action="{% url 'createEquipmentQuantity' obj.hashed %}" method="POST" id="kt_modal_create_app_form">
+								{% csrf_token %}
+									<!--begin::Step 1-->
+									<div class="current" data-kt-stepper-element="content">
+										<div class="w-100">
+											<!--begin::Input group-->
+											<div class="fv-row mb-2">
+												<!--begin::Label-->
+												<label class="d-flex align-items-center fw-bold mb-2">
+													<span class="required">Naran Ekipamentu</span>
+												</label>
+												<!--end::Label-->
+												<!--begin::Input-->
+												<input type="text" class="form-control form-control-lg form-control-solid" readonly name="ekipamentu" placeholder="" value="{{obj.naran}}" />
+												<!--end::Input-->
+											</div>
+											<div class="fv-row mb-2">
+												<!--begin::Label-->
+												<label class="d-flex align-items-center fs-5 fw-bold mb-2">
+													<span class="required">Marka</span>
+												</label>
+												<!--end::Label-->
+												<!--begin::Input-->
+												<input type="text" class="form-control form-control-lg form-control-solid" name="marka" placeholder="" value="{{obj.marka}}" readonly />
+												<!--end::Input-->
+											</div>
+											<!--end::Input group-->
+											<!--begin::Input group-->
+										<div class="fv-row mb-2">
+											<label class="required fs-6 fw-bold mb-2">Data Simu</label>
+											<div class="position-relative d-flex align-items-center">
+												<!--begin::Icon-->
+												<!--begin::Svg Icon | path: icons/duotune/general/gen014.svg-->
+												<span class="bi bi-calendar3 position-absolute mx-4">
+													
+												</span>
+												<!--end::Svg Icon-->
+												<!--end::Icon-->
+												<!--begin::Datepicker-->
+												<input  type="text" class="form-control form-control-solid ps-12" value="{{obj.data_simu}}" placeholder="Pick date range" readonly name="data" />
+												<!--end::Datepicker-->
+											</div>
+										</div>
+										<div class="fv-row mb-2">
+											<label class="required fs-6 fw-bold mb-2">Kategoria</label>
+											<div class="position-relative d-flex align-items-center">
+												<!--begin::Datepicker-->
+												<input  type="text" class="form-control form-control-lg form-control-solid" value="{{ obj.kategoria.kategoria }}" placeholder="Pick date range" readonly name="data" />
+												<!--end::Datepicker-->
+											</div>
+										</div>
+										<div class="fv-row mb-2">
+											<label class="required fs-6 fw-bold mb-2">Doador</label>
+											<div class="position-relative d-flex align-items-center">
+												<!--begin::Datepicker-->
+												<input  type="text" class="form-control form-control-lg form-control-solid" value="{{ obj.doador.kodigu }}" placeholder="Pick date range" readonly name="data" />
+												<!--end::Datepicker-->
+											</div>
+										</div>
+										<!--end::Input group-->
+										<hr>
+										<div class="fv-row mb-2">
+											<!--begin::Label-->
+											<label class="d-flex align-items-center fw-bold mb-2">
+												<span class="required">Kuantidade Ekipamentu</span>
+											</label>
+											<!--end::Label-->
+											<!--begin::Input-->
+											<input type="number" class="form-control form-control-lg form-control-solid" required name="kuantidadeekipamentu" placeholder="" />
+											<!--end::Input-->
+										</div>
+										
+										
+										</div>
+									</div>
+									<!--end::Step 1-->
+									<!--begin::Actions-->
+									<div class="d-flex justify-content-end pt-10">
+										<!--begin::Wrapper-->
+										<button type="submit" class="btn btn-lg btn-primary">
+											<span class="indicator-label">Submit <i class="bi bi-box-arrow-in-right"></i></span>
+										</button>
+										<!--end::Wrapper-->
+									</div>
+									<!--end::Actions-->
+								</form>
+								<!--end::Form-->
+							</div>
+							<!--end::Content-->
+						</div>
+						<!--end::Stepper-->
+					</div>
+					<!--end::Modal body-->
+				</div>
+				<!--end::Modal content-->
+			</div>
+			<!--end::Modal dialog-->
+		</div>
+{% elif page == 'detail' %}
+		<div class="modal fade my-5" id="modal_id_create_equipment_quantity-{{objects.hashed}}" tabindex="-1" aria-hidden="true">
+			<!--begin::Modal dialog-->
+			<div class="modal-dialog modal-dialog-centered mw-900px">
+				<!--begin::Modal content-->
+				<div class="modal-content">
+					<!--begin::Modal header-->
+					<div class="modal-header">
+						<!--begin::Modal title-->
+						<h2>Konfigura Kuantidade Ekipamentu</h2>
+						<!--end::Modal title-->
+						<!--begin::Close-->
+						<div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+							<!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+							<span class="svg-icon svg-icon-1">
+								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+									<rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1" transform="rotate(-45 6 17.3137)" fill="black" />
+									<rect x="7.41422" y="6" width="16" height="2" rx="1" transform="rotate(45 7.41422 6)" fill="black" />
+								</svg>
+							</span>
+							<!--end::Svg Icon-->
+						</div>
+						<!--end::Close-->
+					</div>
+					<!--end::Modal header-->
+					<!--begin::Modal body-->
+					<div class="modal-body py-lg-10 px-lg-10">
+						<!--begin::Stepper-->
+						<div class="stepper stepper-pills stepper-column d-flex flex-column flex-xl-row flex-row-fluid" id="kt_modal_create_app_stepper">
+							<!--begin::Content-->
+							<div class="flex-row-fluid py-lg-5 px-lg-15">
+								<!--begin::Form-->
+								<form class="form" action="{% url 'createEquipmentQuantity' objects.hashed %}" method="POST" id="kt_modal_create_app_form">
+								{% csrf_token %}
+									<!--begin::Step 1-->
+									<div class="current" data-kt-stepper-element="content">
+										<div class="w-100">
+											<!--begin::Input group-->
+											<div class="fv-row mb-2">
+												<!--begin::Label-->
+												<label class="d-flex align-items-center fw-bold mb-2">
+													<span class="required">Naran Ekipamentu</span>
+												</label>
+												<!--end::Label-->
+												<!--begin::Input-->
+												<input type="text" class="form-control form-control-lg form-control-solid" readonly name="ekipamentu" placeholder="" value="{{objects.naran}}" />
+												<!--end::Input-->
+											</div>
+											<div class="fv-row mb-2">
+												<!--begin::Label-->
+												<label class="d-flex align-items-center fs-5 fw-bold mb-2">
+													<span class="required">Marka</span>
+												</label>
+												<!--end::Label-->
+												<!--begin::Input-->
+												<input type="text" class="form-control form-control-lg form-control-solid" name="marka" placeholder="" value="{{objects.marka}}" readonly />
+												<!--end::Input-->
+											</div>
+											<!--end::Input group-->
+											<!--begin::Input group-->
+										<div class="fv-row mb-2">
+											<label class="required fs-6 fw-bold mb-2">Data Simu</label>
+											<div class="position-relative d-flex align-items-center">
+												<!--begin::Icon-->
+												<!--begin::Svg Icon | path: icons/duotune/general/gen014.svg-->
+												<span class="bi bi-calendar3 position-absolute mx-4">
+													
+												</span>
+												<!--end::Svg Icon-->
+												<!--end::Icon-->
+												<!--begin::Datepicker-->
+												<input  type="text" class="form-control form-control-solid ps-12" value="{{objects.data_simu}}" placeholder="Pick date range" readonly name="data" />
+												<!--end::Datepicker-->
+											</div>
+										</div>
+										<div class="fv-row mb-2">
+											<label class="required fs-6 fw-bold mb-2">Kategoria</label>
+											<div class="position-relative d-flex align-items-center">
+												<!--begin::Datepicker-->
+												<input  type="text" class="form-control form-control-lg form-control-solid" value="{{ objects.kategoria.kategoria }}" placeholder="Pick date range" readonly name="data" />
+												<!--end::Datepicker-->
+											</div>
+										</div>
+										<div class="fv-row mb-2">
+											<label class="required fs-6 fw-bold mb-2">Doador</label>
+											<div class="position-relative d-flex align-items-center">
+												<!--begin::Datepicker-->
+												<input  type="text" class="form-control form-control-lg form-control-solid" value="{{ objects.doador.kodigu }}" placeholder="Pick date range" readonly name="data" />
+												<!--end::Datepicker-->
+											</div>
+										</div>
+										<!--end::Input group-->
+										<hr>
+										<div class="fv-row mb-2">
+											<!--begin::Label-->
+											<label class="d-flex align-items-center fw-bold mb-2">
+												<span class="required">Kuantidade Ekipamentu</span>
+											</label>
+											<!--end::Label-->
+											<!--begin::Input-->
+											<input type="number" class="form-control form-control-lg form-control-solid" required name="kuantidadeekipamentu" placeholder="" />
+											<!--end::Input-->
+										</div>
+										
+										
+										</div>
+									</div>
+									<!--end::Step 1-->
+									<!--begin::Actions-->
+									<div class="d-flex justify-content-end pt-10">
+										<!--begin::Wrapper-->
+										<button type="submit" class="btn btn-lg btn-primary">
+											<span class="indicator-label">Submit <i class="bi bi-box-arrow-in-right"></i></span>
+										</button>
+										<!--end::Wrapper-->
+									</div>
+									<!--end::Actions-->
+								</form>
+								<!--end::Form-->
+							</div>
+							<!--end::Content-->
+						</div>
+						<!--end::Stepper-->
+					</div>
+					<!--end::Modal body-->
+				</div>
+				<!--end::Modal content-->
+			</div>
+			<!--end::Modal dialog-->
+		</div>
+{% endif %}
+		<!--end::Modal - Create App-->

@@ -1,0 +1,1 @@
+web: gunicorn geolab.wsgi --log-file -

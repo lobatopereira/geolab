@@ -1,0 +1,303 @@
+{% extends 'main/base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% load custom_filters %}
+{% block content %}
+<div class="toolbar" id="kt_toolbar">
+	<div id="kt_toolbar_container" class="container-fluid d-flex flex-stack">
+		<!--begin::Page title-->
+		<div data-kt-swapper="true" data-kt-swapper-mode="prepend" data-kt-swapper-parent="{default: '#kt_content_container', 'lg': '#kt_toolbar_container'}" class="page-title d-flex align-items-center flex-wrap me-3 mb-5 mb-lg-0">
+			<!--begin::Title-->
+			<h1 class="d-flex align-items-center text-dark fw-bolder fs-3 my-1"><a class="text-dark" href="{% url 'home' %}">HOME</a>
+			<!--begin::Separator-->
+			<span class="h-20px border-gray-200 border-start ms-3 mx-2"></span>
+			<!--end::Separator-->
+			<!--begin::Description-->
+			<small class="text-muted fs-7 fw-bold my-1 ms-1">{{title|upper}}</small>
+			<!--end::Description--></h1>
+			<!--end::Title-->
+		</div>
+		<!--end::Page title-->
+		<!--begin::Actions-->
+		<div class="d-flex align-items-center gap-2 gap-lg-3">
+			<!--begin::Secondary button-->
+			<!--end::Secondary button-->
+			<!--begin::Primary button-->
+			
+			<!--end::Primary button-->
+		</div>
+		<!--end::Actions-->
+	</div>
+</div>
+<!--begin::Post-->
+<div class="post container-xxl">
+</div>
+						<div class="post d-flex flex-column-fluid" id="kt_post">
+							<!--begin::Container-->
+							<div id="kt_content_container" class="container-xxl">
+								<div class="row gy-5 g-xl-8 justify-content-center">
+									<div class="col-xl-3">
+										<a href="{% url 'reportAllEquipments' %}">
+										<div class="card mb-xl-8">
+											<!--begin::Body-->
+											<div class="card-body p-0">
+												<div class="d-flex flex-stack card-p flex-grow-1">
+													<span class="symbol symbol-50px me-2">
+														<span class="symbol-label bg-light-danger">
+															<!--begin::Svg Icon | path: icons/duotune/finance/fin001.svg-->
+															<span class="svg-icon svg-icon-2x svg-icon-success">
+																<i class="bi bi-folder"></i>
+															</span>
+															<!--end::Svg Icon-->
+														</span>
+													</span>
+													<div class="d-flex flex-column text-end">
+														<span class="text-dark fw-bolder fs-2">{{totalEkipamentu}}</span>
+														<span class="text-muted fw-bold mt-1">Total Ekipamentu</span>
+													</div>
+												</div>
+												<!-- <div class="statistics-widget-4-chart card-rounded-bottom" data-kt-chart-color="success" style="height: 150px"></div> -->
+											</div>
+											<!--end::Body-->
+										</div>
+										</a>
+									</div>
+									<div class="col-xl-3">
+										<div class="card mb-xl-8">
+											<!--begin::Body-->
+											<a href="{% url 'reportAllInventaria' %}">
+											<div class="card-body p-0">
+												<div class="d-flex flex-stack card-p flex-grow-1">
+													<span class="symbol symbol-50px me-2">
+														<span class="symbol-label bg-light-danger">
+															<!--begin::Svg Icon | path: icons/duotune/finance/fin001.svg-->
+															<span class="svg-icon svg-icon-2x svg-icon-success">
+																<i class="bi bi-gift"></i>
+															</span>
+															<!--end::Svg Icon-->
+														</span>
+													</span>
+													<div class="d-flex flex-column text-end">
+														<span class="text-dark fw-bolder fs-2">{{totalInventory}}</span>
+														<span class="text-muted fw-bold mt-1">Total Inventaria</span>
+													</div>
+												</div>
+												<!-- <div class="statistics-widget-4-chart card-rounded-bottom" data-kt-chart-color="success" style="height: 150px"></div> -->
+											</div>
+											</a>
+											<!--end::Body-->
+										</div>
+									</div>
+								</div>
+								<div class="row mt-3">
+									<div class="col-xl-3">
+										<a href="{% url 'reportEkipamentuUza' %}">
+										<div class="card bg-success text-white p-5 text-center align-items-center">
+										<h1 class="text-white">{{ekipamentuUzaHela}}</h1>
+										 Ekipamentu Uza Hela
+										</div>
+										</a>
+									</div>
+									<div class="col-xl-3">
+										<a href="{% url 'reportEkipamentuDisponivel' %}">
+										<div class="card bg-warning text-white p-5 text-center align-items-center">
+										<h1 class="text-white">{{ekipamentuDisponivel}}</h1>
+										 Ekipamentu Disponivel
+										</div>
+										</a>
+									</div>
+									<div class="col-xl-3">
+										<a href="{% url 'reportEkipamentuDiak' %}">
+										<div class="card bg-info text-white p-5 text-center align-items-center">
+										<h1 class="text-white">{{ekipamentuDiak}}</h1>
+										Ekipamentu Kondisaun Diak
+										</div>
+										</a>
+									</div>
+									<div class="col-xl-3">
+										<a href="{% url 'reportEkipamentuAat' %}">
+										<div class="card bg-dark text-white p-5 text-center align-items-center">
+										<h1 class="text-white">{{ekipamentuAat}}</h1>
+										Ekipamentu Kondisaun Aat
+										</div>
+										</a>
+									</div>
+								</div>
+								<div class="row gy-5 g-xl-8 mt-4">
+									<div class="col-xl-6">
+										<div class="card pt-4">
+										<div class="card-body">
+						                    <h5 align="center">Total Ekipamentu no Inventaria tuir Kategoria</h5><hr/>
+						                      <div class="table-responsive">
+												<table id="#" class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4" style="width:100%">
+													<tr>
+														<th class="text-center" width="5%" style="vertical-align: middle;">Nu</th>
+														<th class="text-center" width="15%" style="vertical-align: middle;">Kategoria</th>
+														<th class="text-center">Ekipamentu</th>
+														<th class="text-center">Inventaria</th>
+													</tr>
+													
+													{% for obj in sumario_kategoria %}
+													<tr>
+														<td data-title="Nu." class="text-center">{{ forloop.counter }}</td>
+														<td data-title="">{{ obj.kategoria }}</td>
+														<td data-title="#" class="text-center"><a href="{% url 'ReportKategoriaEkipamentu' obj.id_kategoria %}">{{ obj.totalEkipamentu }}</a></td>
+														<td data-title="#" class="text-center"><a href="{% url 'ReportKategoriaInventaria' obj.id_kategoria %}">{{ obj.totalInventaria }}</a></td>
+													</tr>
+													{% endfor %}
+												</table>
+											</div>
+										</div>
+										</div>
+									</div>
+									<div class="col-xl-6">
+										<div class="card pt-4">
+										<div class="card-body">
+						                    <h5 align="center">Total Ekipamentu no Inventaria tuir Doadores</h5><hr/>
+						                      <div class="table-responsive">
+												<table id="#" class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4" style="width:100%">
+													<tr>
+														<th class="text-center" width="5%" style="vertical-align: middle;">Nu</th>
+														<th class="text-center" width="15%" style="vertical-align: middle;">Doadores</th>
+														<th class="text-center">Ekipamentu</th>
+														<th class="text-center">Inventaria</th>
+													</tr>
+													
+													{% for obj in sumario_doador %}
+													<tr>
+														<td data-title="Nu." class="text-center">{{ forloop.counter }}</td>
+														<td data-title="">{{ obj.doador }}</td>
+														<td data-title="#" class="text-center"><a href="{% url 'ReportDoadorEkipamentu' obj.id_doador %}">{{ obj.totalEkipamentu }}</a></td>
+														<td data-title="#" class="text-center"><a href="{% url 'ReportDoadorInventaria' obj.id_doador %}">{{ obj.totalInventaria }}</a></td>
+													</tr>
+													{% endfor %}
+												</table>
+											</div>
+										</div>
+										</div>
+									</div>
+								</div>
+								<div class="row gy-5 g-xl-8 mt-4">
+									<div class="col-xl-6">
+										<div class="card pt-4">
+										<div class="card-body">
+						                    <h5 align="center">Total Ekipamentu tuir Fulan Tama no Doasaun iha Tinan Atual</h5><hr/>
+						                      <div class="table-responsive">
+												<table id="#" class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4" style="width:100%">
+													<tr>
+														<th class="text-center" width="5%" rowspan="3" style="vertical-align: middle;">Nu</th>
+														<th class="text-center" width="15%" rowspan="3" style="vertical-align: middle;">Fulan</th>
+														<th colspan="{{listaDoador|double_length }}" class="text-center">Doador</th>
+													</tr>
+													<tr>
+													{% for c in listaDoador %}
+														<th colspan="" class="text-center">{{c.kodigu }}</th>
+													{% endfor %}
+													</tr>
+													<tr>
+													</tr>
+													{% for obj_c in sumariu_tuir_fulan_tinan_atual %}
+													<tr>
+														<td data-title="Nu." class="text-center">{{ forloop.counter }}</td>
+														<td data-title="">{{ obj_c.fulan }}</td>
+													{% for obj_c2 in obj_c.sumariuTuirFulan %}
+														<td data-title="#" class="text-center"><a href="{% url 'ReportDoadorEkipamentuTuirFulan' obj_c.idFulan obj_c2.doadorID  %}">{{ obj_c2.totalEkipamentu }}</a></td>
+													{% endfor %}
+													</tr>
+													{% endfor %}
+												</table>
+											</div>
+										</div>
+										</div>
+									</div>
+									<div class="col-xl-6">
+										<div class="card pt-4">
+										<div class="card-body">
+						                      <h5 align="center">Total Inventaria tuir Fulan iha Tinan Atual</h5><hr/>
+						                      <div class="table-responsive">
+												<table id="#" class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4" style="width:100%">
+													<tr>
+														<th class="text-center" width="5%" rowspan="" style="vertical-align: middle;">Nu</th>
+														<th class="text-center" width="15%" rowspan="" style="vertical-align: middle;">Fulan</th>
+														<th colspan="" class="text-center">Total Tama</th>
+														<th colspan="" class="text-center">Total Sai</th>
+													</tr>
+													
+													<tr>
+													</tr>
+													{% for obj_c in sumariu_inventaria_tuir_fulan_tinan_atual %}
+													<tr>
+														<td data-title="Nu." class="text-center">{{ forloop.counter }}</td>
+														<td data-title="">{{ obj_c.fulan }}</td>
+														<td data-title="#" class="text-center"><a href="{% url 'ReportInventariaTamaTuirFulan' obj_c.idFulan %}">{{ obj_c.tama }}</a></td>
+														<td data-title="#" class="text-center"><a href="{% url 'ReportInventariaSaiTuirFulan' obj_c.idFulan %}">{{ obj_c.sai }}</a></td>
+													</tr>
+													{% endfor %}
+												</table>
+											</div>
+										</div>
+										</div>
+									</div>
+									
+								</div>
+								<div class="row gy-5 g-xl-8 mt-4">
+									<div class="col-xl-6">
+										<div class="card pt-4">
+										<div class="card-body">
+						                      <h5 align="center">Total Ekipamentu tuir Tinan</h5><hr/>
+						                      <div class="table-responsive">
+												<table id="#" class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4" style="width:100%">
+													<tr>
+														<th class="text-center" width="5%" rowspan="" style="vertical-align: middle;">Nu</th>
+														<th class="text-center" width="15%" rowspan="" style="vertical-align: middle;">Tinan</th>
+														<th colspan="" class="text-center">Total Ekipamentu</th>
+													</tr>
+													
+													<tr>
+													</tr>
+													{% for obj_c in sumario_kada_tinan %}
+													<tr>
+														<td data-title="Nu." class="text-center">{{ forloop.counter }}</td>
+														<td data-title="">{{ obj_c.year }}</td>
+														<td data-title="#" class="text-center"><a href="{% url 'ReportEkipamentuTuirTinan' obj_c.year %}">{{ obj_c.totalEkipamentu }}</a></td>
+													</tr>
+													{% endfor %}
+												</table>
+											</div>
+										</div>
+										</div>
+									</div>
+									<div class="col-xl-6">
+										<div class="card pt-4">
+										<div class="card-body">
+						                      <h5 align="center">Total Inventaria tuir Tinan</h5><hr/>
+						                      <div class="table-responsive">
+												<table id="#" class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4" style="width:100%">
+													<tr>
+														<th class="text-center" width="5%" rowspan="" style="vertical-align: middle;">Nu</th>
+														<th class="text-center" width="15%" rowspan="" style="vertical-align: middle;">Tinan</th>
+														<th colspan="" class="text-center">Total Tama</th>
+														<th colspan="" class="text-center">Total Sai</th>
+													</tr>
+													
+													<tr>
+													</tr>
+													{% for obj_c in sumario_inventaria_kada_tinan %}
+													<tr>
+														<td data-title="Nu." class="text-center">{{ forloop.counter }}</td>
+														<td data-title="">{{ obj_c.year }}</td>
+														<td data-title="#" class="text-center"><a href="{% url 'ReportInventariaTamaTuirTinan' obj_c.year %}">{{ obj_c.tama }}</a></td>
+														<td data-title="#" class="text-center"><a href="{% url 'ReportInventariaSaiTuirTinan' obj_c.year %}">{{ obj_c.sai }}</a></td>
+													</tr>
+													{% endfor %}
+												</table>
+											</div>
+										</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!--end::Container-->
+						</div>
+						<!--end::Post-->
+{% endblock %}

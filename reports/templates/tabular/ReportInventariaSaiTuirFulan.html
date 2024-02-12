@@ -1,0 +1,109 @@
+{% extends 'main/base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% load custom_filters %}
+{% block headStyle %}
+<style type="text/css">
+	body{
+		background: #fff;
+		padding-left: 10%;
+		padding-right: 10%;
+	}
+</style>
+{% endblock %}
+{% block content %}
+<div class="toolbar" id="kt_toolbar">
+	<div id="kt_toolbar_container" class="container-fluid d-flex flex-stack">
+		<!--begin::Page title-->
+		<div data-kt-swapper="true" data-kt-swapper-mode="prepend" data-kt-swapper-parent="{default: '#kt_content_container', 'lg': '#kt_toolbar_container'}" class="page-title d-flex align-items-center flex-wrap me-3 mb-5 mb-lg-0">
+			<!--begin::Title-->
+			<h1 class="d-flex align-items-center text-dark fw-bolder fs-3 my-1">
+				<a class="text-dark" href="{% url 'home' %}">HOME</a>
+			<!--begin::Separator-->
+			<span class="h-20px border-gray-200 border-start ms-3 mx-2"></span>
+				<a class="text-dark" href="{% url 'ReportDash' %}">Dashboard Relatoriu</a>
+			<span class="h-20px border-gray-200 border-start ms-3 mx-2"></span>
+			<!--end::Separator-->
+			<!--begin::Description-->
+			<small class="text-muted fs-7 fw-bold my-1 ms-1">{{title|upper}}</small>
+			<!--end::Description--></h1>
+			<!--end::Title-->
+		</div>
+		<!--end::Page title-->
+		<!--begin::Actions-->
+		<div class="d-flex align-items-center gap-2 gap-lg-3">
+			<!--begin::Secondary button-->
+			<!--end::Secondary button-->
+			<!--begin::Primary button-->
+			
+			<!--end::Primary button-->
+		</div>
+		<!--end::Actions-->
+	</div>
+</div>
+<!--begin::Post-->
+<div class="post container-xxl">
+</div>
+<div class="post d-flex flex-column-fluid" id="kt_post">
+	<!--begin::Container-->
+	<div id="kt_content_container" class="container-xxl">
+		<div class="row gy-5 g-xl-8">
+			<div class="card">
+				<div class="card-body pt-9 pb-0">
+					<!--begin::Table container-->
+					<div class="table-responsive">
+						<!--begin::Table-->
+						<table id="example" class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
+							<!--begin::Table head-->
+							<thead>
+								<tr class="fw-bolder text-muted">
+									<th class="min-w-10px">Nu.</th>
+									<th class="min-w-140px">Naran Inventaria</th>
+									<th class="min-w-120px">Data Sai</th>
+									<th class="min-w-120px">Marka</th>
+									<th class="min-w-120px">Kodigu Stock</th>
+									<th class="min-w-120px">Total Sai</th>
+									{% if page == 'inventariaSai' %}
+									<th class="min-w-120px">Utilizador</th>
+									{% endif %}
+								</tr>
+							</thead>
+							<!--end::Table head-->
+							<!--begin::Table body-->
+							<tbody>
+								{% for obj in objects %}
+								<tr>
+									<td>
+											{{forloop.counter}}
+									</td>
+									<td data-title="Username">{{ obj.inventory.naran }}</td>
+                                	<td data-title="Group">{{ obj.data|date:"d/m/Y" }}</td>
+                                	<td data-title="Email">{{ obj.inventory.marka }}</td>
+                                	<td data-title="Email">{{ obj.inventory.inventoryStock.kodigu_stock }}</td>
+                                	<td data-title="Email">{{ obj.total_sai }}</td>
+									{% if page == 'inventariaSai' %}
+                                	<td data-title="Email">{{ obj.utilizador.naran }}</td>
+                                	{% endif %}
+									
+								</tr>
+								
+								
+
+								{%endfor%}
+							</tbody>
+							<!--end::Table body-->
+						</table>
+						<!--end::Table-->
+					</div>
+					<!--end::Table container-->
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--end::Container-->
+</div>
+<!--end::Post-->
+{% endblock %}
+{% block script %}
+{% include 'exports_custom.html' %}
+{% endblock %}

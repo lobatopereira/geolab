@@ -1,0 +1,103 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% block content %}
+<div class="toolbar" id="kt_toolbar">
+	<div id="kt_toolbar_container" class="container-fluid d-flex flex-stack">
+		<!--begin::Page title-->
+		<div data-kt-swapper="true" data-kt-swapper-mode="prepend" data-kt-swapper-parent="{default: '#kt_content_container', 'lg': '#kt_toolbar_container'}" class="page-title d-flex align-items-center flex-wrap me-3 mb-5 mb-lg-0">
+			<!--begin::Title-->
+			<h1 class="d-flex align-items-center text-dark fw-bolder fs-3 my-1">Home
+			<!--begin::Separator-->
+			<span class="h-20px border-gray-200 border-start ms-3 mx-2"></span>
+			<!--end::Separator-->
+			<!--begin::Description-->
+			<small class="text-muted fs-7 fw-bold my-1 ms-1">GEOLAB</small>
+			<!--end::Description--></h1>
+			<!--end::Title-->
+		</div>
+		<!--end::Page title-->
+		<!--begin::Actions-->
+		<div class="d-flex align-items-center gap-2 gap-lg-3">
+			<!--begin::Secondary button-->
+			<!--end::Secondary button-->
+			<!--begin::Primary button-->
+			
+			<!--end::Primary button-->
+		</div>
+		<!--end::Actions-->
+	</div>
+</div>
+<!--begin::Post-->
+<div class="post d-flex flex-column-fluid" id="kt_post">
+	<!--begin::Container-->
+	<div id="kt_content_container" class="container-xxl">
+		<!--begin::Row-->
+		<div class="row gy-5 g-xl-8">
+			<!--begin::Col-->
+			<div class="col-xl-12">
+				<div class="card p-5">
+					{% if user.groups.all.0.name == 'Administracao Laboratorio' or user.groups.all.0.name == 'Cordenador Laboratorio' %}
+					<div class="d-flex justify-content-end">
+						<div class="my-3">
+							<a class="btn btn-sm btn-info btn-active-light-primary d-flex justify-content-between" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" data-kt-menu-overflow="true">
+								<i class="mt-1 bi bi-list"></i> <span class="mr-3">Link Lais </span> <i class="mt-1 bi bi-chevron-down"></i>
+							</a>
+							<div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg-light-primary fw-bold w-200px" data-kt-menu="true">
+								<div class="menu-item px-3 mt-2">
+									<a href="{% url 'UtilizadorUzaEquipmentuDash' %}" class="menu-link bg-light-warning px-3"><i class="bi bi-kanban-fill mx-2"></i> Uza Ekipamentu</a>
+								</div>
+								<div class="menu-item px-3 mt-2">
+									<a href="{% url 'UtilizadorEntregaEquipmentuDash' %}" class="menu-link bg-light-success px-3"><i class="bi bi-gift mx-2"></i> Entrega Ekipamentu</a>
+								</div>
+								<div class="menu-item px-3 mt-2">
+									<a href="{% url 'InventoryUzaDash' %}" class="menu-link bg-light-danger px-3"><i class="bi bi-cart-plus mx-2"></i> Uza Inventaria</a>
+								</div>
+								
+								<br>
+							</div>
+						</div>
+					</div>
+					{%endif%}
+					<div class="notice d-flex bg-light-warning rounded border-warning border border-dashed p-6">
+						<!--begin::Icon-->
+						<!--begin::Svg Icon | path: icons/duotune/general/gen044.svg-->
+						<span class="svg-icon svg-icon-2tx svg-icon-warning me-4">
+							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+								<rect opacity="0.3" x="2" y="2" width="20" height="20" rx="10" fill="black" />
+								<rect x="11" y="14" width="7" height="2" rx="1" transform="rotate(-90 11 14)" fill="black" />
+								<rect x="11" y="17" width="2" height="2" rx="1" transform="rotate(-90 11 17)" fill="black" />
+							</svg>
+						</span>
+						<!--end::Svg Icon-->
+						<!--end::Icon-->
+						<!--begin::Wrapper-->
+						<div class="d-flex flex-stack flex-grow-1">
+							<!--begin::Content-->
+							<div class="fw-bold">
+								<h1 class="text-gray-900 fw-bolder">Benvindu!</h1>
+								<div class="fs-6 text-gray-700">
+									Benvindu mai Sistema Jestaun Ekipamentu Laboratoriu 
+									<a class="fw-bolder" href="../../demo1/dist/account/billing.html">Geologia Petroleo UNTL!</a>.
+								</div>
+							</div>
+							<!--end::Content-->
+						</div>
+						<!--end::Wrapper-->
+							
+					</div>
+					<div class="mt-5">
+								<img src="{% static 'assets/media/logos/geolab2.jpg' %}" width="100%" height="80%">
+							</div>
+				</div>
+			</div>
+			<!--end::Col-->
+		</div>
+	</div>
+</div>
+
+
+
+{% endblock %}
+
+{% block modal %}
+{% endblock %}

@@ -1,0 +1,124 @@
+{% extends 'main/base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block content %}
+<div class="toolbar" id="kt_toolbar">
+	<div id="kt_toolbar_container" class="container-fluid d-flex flex-stack">
+		<!--begin::Page title-->
+		<div data-kt-swapper="true" data-kt-swapper-mode="prepend" data-kt-swapper-parent="{default: '#kt_content_container', 'lg': '#kt_toolbar_container'}" class="page-title d-flex align-items-center flex-wrap me-3 mb-5 mb-lg-0">
+			<!--begin::Title-->
+			<h1 class="d-flex align-items-center text-dark fw-bolder fs-3 my-1"><a class="text-dark" href="{% url 'home' %}">HOME</a>
+			<!--begin::Separator-->
+			<span class="h-20px border-gray-200 border-start ms-3 mx-2"></span>
+			<!--end::Separator-->
+			<!--begin::Description-->
+			<small class="text-muted fs-7 fw-bold my-1 ms-1">{{title|upper}}</small>
+			<!--end::Description--></h1>
+			<!--end::Title-->
+		</div>
+		<!--end::Page title-->
+		<!--begin::Actions-->
+		<div class="d-flex align-items-center gap-2 gap-lg-3">
+			<!--begin::Secondary button-->
+			<!--end::Secondary button-->
+			<!--begin::Primary button-->
+			
+			<!--end::Primary button-->
+		</div>
+		<!--end::Actions-->
+	</div>
+</div>
+<!--begin::Post-->
+<div class="post container-xxl">
+{% if messages %}
+    {% for message in messages %} 
+        <div class="alert alert-{{ message.tags }} alert-dismissable">
+        	<div class="d-flex justify-content-between">
+          		{{message}}
+          		<button type="button" class="close btn btn-sm" data-dismiss="alert" aria-hidden="true"><span class="bi bi-x-square"></span></button>
+        	</div>
+        </div>
+    {% endfor %}
+{% endif %}
+</div>
+						<div class="post d-flex flex-column-fluid" id="kt_post">
+							<!--begin::Container-->
+							<div id="kt_content_container" class="container-xxl">
+								<!--begin::Navbar-->
+								{% if page == "list" %}
+								<div class="card mb-5 mb-xl-10">
+								{% if group == "Admin" or group == "Administracao Laboratorio" or group == "Cordenador Laboratorio" %}
+									<div class="d-flex justify-content-end">
+										<a href="#" class="m-3 btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#modal_id_create_category"><i class="bi bi-plus-circle"></i> Rejista Kategoria</a>
+									</div>
+									<!--begin::Body-->
+								{%endif%}
+					<div class="card-body py-3">
+						<!--begin::Table container-->
+						<div class="table-responsive">
+							<!--begin::Table-->
+							<table id="example" class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
+								<!--begin::Table head-->
+								<thead>
+									<tr class="fw-bolder text-muted">
+										<th class="min-w-10px">Nu.</th>
+										<th class="min-w-140px">Kategoria</th>
+										{% if group == "Admin" or group == "Administracao Laboratorio" or group == "Cordenador Laboratorio" %}
+										<th class="min-w-100px text-center">Actions</th>
+										{%endif%}
+									</tr>
+								</thead>
+								<!--end::Table head-->
+								<!--begin::Table body-->
+								<tbody>
+									{% for obj in objects %}
+									<tr>
+										<td>
+										{{forloop.counter}}
+										</td>
+										<td data-title="Username">{{ obj.kategoria }}</td>
+										{% if group == "Admin" or group == "Administracao Laboratorio" or group == "Cordenador Laboratorio" %}
+										<td class="text-center">
+											<div class="m-0">
+												<div class="d-flex justify-content-center flex-shrink-0">
+													<a href="#" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1"  data-bs-toggle="modal" data-bs-target="#modal_id_update_category-{{obj.hashed}}">
+														<!--begin::Svg Icon | path: icons/duotune/art/art005.svg-->
+														<span class="bi bi-pencil-square"></span>
+														<!--end::Svg Icon-->
+													</a>
+													<a href="#" class="btn btn-icon btn-bg-light btn-active-color-danger btn-sm"data-bs-toggle="modal" data-bs-target="#modal_id_delete_category-{{obj.hashed}}">
+														<!--begin::Svg Icon | path: icons/duotune/general/gen027.svg-->
+														<span class="bi bi-trash"></span>
+														<!--end::Svg Icon-->
+													</a>
+												</div>
+											</div>
+										</td>
+										{% endif %}
+									</tr>
+									{% include 'category/category_modal1.html' %}
+									{% include 'category/category_modal2.html' %}
+									{%endfor%}
+								</tbody>
+								<!--end::Table body-->
+							</table>
+							<!--end::Table-->
+						</div>
+						<!--end::Table container-->
+					</div>
+					<!--begin::Body-->
+								</div>
+								{% endif %}
+								<!--end::Navbar-->
+								
+								
+							</div>
+							<!--end::Container-->
+						</div>
+						<!--end::Post-->
+{% include 'category/category_modal.html' %}
+{% endblock %}
+{% block script %}
+		{% include 'exports_custom1.html' %}
+	
+{% endblock %}

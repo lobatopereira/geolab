@@ -1,0 +1,203 @@
+{% extends 'main/base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block headStyle %}
+.zoom {
+  transition: transform .2s;
+  width: 100px;
+  height: 100px;
+  margin: 0 auto;
+}
+
+.zoom:hover {
+  -ms-transform: scale(2.5); /* IE 9 */
+  -webkit-transform: scale(2.5); /* Safari 3-8 */
+  transform: scale(2.5); 
+}
+{% endblock %}
+{% block content %}
+<div class="toolbar" id="kt_toolbar">
+	<div id="kt_toolbar_container" class="container-fluid d-flex flex-stack">
+		<!--begin::Page title-->
+		<div data-kt-swapper="true" data-kt-swapper-mode="prepend" data-kt-swapper-parent="{default: '#kt_content_container', 'lg': '#kt_toolbar_container'}" class="page-title d-flex align-items-center flex-wrap me-3 mb-5 mb-lg-0">
+			<!--begin::Title-->
+			<h1 class="d-flex align-items-center text-dark fw-bolder fs-3 my-1"><a class="text-dark" href="{% url 'home' %}">HOME</a>
+			<!--begin::Separator-->
+			<span class="h-20px border-gray-200 border-start ms-3 mx-2"></span>
+			<!--end::Separator-->
+			<!--begin::Description-->
+			<small class="text-muted fs-7 fw-bold my-1 ms-1">{{title|upper}}</small>
+			<!--end::Description--></h1>
+			<!--end::Title-->
+		</div>
+		<!--end::Page title-->
+		<!--begin::Actions-->
+		<div class="d-flex align-items-center gap-2 gap-lg-3">
+			<!--begin::Secondary button-->
+			<!--end::Secondary button-->
+			<!--begin::Primary button-->
+			<!-- <a href="../../demo1/dist/.html" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#kt_modal_create_app">Create</a> -->
+			<!--end::Primary button-->
+		</div>
+		<!--end::Actions-->
+	</div>
+</div>
+<!--begin::Post-->
+						<div class="post d-flex flex-column-fluid" id="kt_post">
+							<div id="kt_content_container" class="container-xxl">
+							{% if messages %}
+							    {% for message in messages %} 
+							        <div class="alert alert-{{ message.tags }} alert-dismissable">
+							        	<div class="d-flex justify-content-between">
+							          		{{message}}
+							          		<button type="button" class="close btn btn-sm" data-dismiss="alert" aria-hidden="true"><span class="bi bi-x-square"></span></button>
+							        	</div>
+							        </div>
+							    {% endfor %}
+							{% endif %}
+							<!--begin::Container-->
+								
+								<!--begin::details View-->
+								<div class="card mb-5 mb-xl-10" id="kt_profile_details_view">
+									<!--begin::Card header-->
+									<div class="card-header cursor-pointer">
+										<!--begin::Card title-->
+										<div class="card-title m-0">
+											<h3 class="fw-bolder m-0">{{title}}</h3>
+										</div>
+									</div>
+									<!--begin::Card header-->
+									<!--begin::Card body-->
+									<div class="card-body p-9">
+										{% if page == 'dash' %}
+										<form method="get" action="{% url 'InventoryUzaDash' %}">
+											{% csrf_token %}
+										    <div class="input-group mb-3">
+										    <input type="text" name="search_inventory" class="form-control" placeholder="Konsulta Inventaria. Naran Ekipamentu ka kodigu stock">
+
+											    <div class="input-group-append">
+											      <button class="btn btn-primary" type="submit"><i class="bi bi-search"></i> Konsulta</button>  
+											     </div>
+											  </div>
+										</form>
+										<hr>
+										<div class="table-responsive">
+											<!--begin::Table-->
+											<table class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
+												<!--begin::Table head-->
+												<thead>
+													<tr class="fw-bolder text-muted">
+														<th class="min-w-10px">Nu.</th>
+														<th class="min-w-140px">Inventaria</th>
+														<th class="min-w-120px">Kategoria</th>
+														<th class="min-w-120px">Kodigu Stock</th>
+														<th class="min-w-120px">Total Stock</th>
+														{% if group == "Admin" or group == "Administracao Laboratorio" or group == "Cordenador Laboratorio" %}
+														<th class="min-w-100px text-center">Actions</th>
+														{%endif%}
+													</tr>
+												</thead>
+												<!--end::Table head-->
+												<!--begin::Table body-->
+												<tbody>
+													{% for obj in resultadu %}
+													<tr>
+														<td>
+																{{forloop.counter}}
+														</td>
+														<td data-title="Username">
+															<div class="d-flex align-items-center">
+																<div class="symbol symbol-45px me-5">
+																	{% if obj.image %}
+																	<img src="{{obj.image.url}}" alt="" class="zoom" />
+																	{% else %}
+																	<img src="{% static 'assets/media/avatars/blank.png' %}" alt="No Photo" class="zoom" />
+																	{% endif %}
+																</div>
+																<div class="d-flex justify-content-start flex-column">
+																	<a href="{% url 'detailInventory' obj.hashed %}">{{ obj.naran }}</a>
+																</div>
+															</div>
+														</td>
+				                  	<td data-title="Group">{{ obj.kategoria}}</td>
+				                  	<td data-title="Email">{{ obj.inventoryStock.kodigu_stock }}</td>
+				                  	<td data-title="Email">{{ obj.inventoryStock.total_stock }}</td>
+														{% if group == "Admin" or group == "Administracao Laboratorio" or group == "Cordenador Laboratorio" %}
+														<td class="text-center">
+															<a href="{% url 'UzaInventory' obj.hashed  %}" class="menu-link p-3 badge-light-success"><i class="bi bi-cart-plus mx-2"></i> Uza Inventaria</a>
+														</td>
+														{%endif%}
+													</tr>
+													
+
+													{%endfor%}
+												</tbody>
+												<!--end::Table body-->
+											</table>
+											<!--end::Table-->
+										</div>
+										{% elif page == 'form' %}
+										<div class="row mb-2">
+												<div class="col-xl-6">		
+													<div class="d-flex justify-content-between">
+														<div class="text-center">
+														<h3>Inventaria : {{objects.naran}}</h3><br>
+														<div class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 me-6 mb-3 text-center">
+																<!--begin::Number-->
+																<div class="">
+																	<div class="fs-2 fw-bolder" data-kt-countup="true" data-kt-countup-value="{{objects.inventoryStock.total_stock}}" data-kt-countup-prefix="">0</div>
+																</div>
+																<!--end::Number-->
+																<!--begin::Label-->
+																<div class="fw-bold fs-6 text-gray-400">Total Stock Disponivel</div>
+																<!--end::Label-->
+															</div>
+														</div>
+														<div>
+															{% if objects.image %}
+																<img src="{{objects.image.url}}" width="200px">
+															{% endif %}
+														</div>
+													</div>
+												</div>
+											</div>
+											<hr>
+	                  	<form method="post" action="">
+											    {% csrf_token %}
+											    
+											    <div class="form-group form-row mb-2">
+											        <div class="col-md-6">
+											            {{ form.utilizador.label_tag }}
+											            {{ form.utilizador }}
+											        </div>
+											        
+											    </div>
+											    <div class="form-group fv-row mb-2">
+											    	<div class="row fv-row">
+											        <div class="col-md-6">
+											            {{ form.data.label_tag }}
+											            {{ form.data }}
+											        </div>
+											        <div class="col-md-6">
+											            {{ form.total_sai.label_tag }}
+											            {{ form.total_sai }}
+											        </div>
+											      </div>
+											    </div>
+											    <div class="d-flex justify-content-end mt-5">
+												    <button type="submit" class="btn btn-sm btn-success"><i class="fa fa-save"></i> Guarda</button>
+												    <button class="btn btn-sm btn-secondary" onclick=self.history.back()><i class="bi bi-arrow-left-square-fill"></i> Kansela</button>
+											    </div>
+											</form>
+										{% endif %}
+									</div>
+									<!--end::Card body-->
+										
+								</div>
+								<!--end::details View-->
+								
+							</div>
+							<!--end::Container-->
+						</div>
+						<!--end::Post-->
+{% endblock %}

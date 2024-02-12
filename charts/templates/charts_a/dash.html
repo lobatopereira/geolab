@@ -1,0 +1,236 @@
+{% extends 'main/base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% load custom_filters %}
+{% block content %}
+<div class="toolbar" id="kt_toolbar">
+	<div class="container-fluid d-flex flex-stack">
+		<!--begin::Page title-->
+		<div data-kt-swapper="true" data-kt-swapper-mode="prepend" data-kt-swapper-parent="{default: '#kt_content_container', 'lg': '#kt_toolbar_container'}" class="page-title d-flex align-items-center flex-wrap me-3 mb-5 mb-lg-0">
+			<!--begin::Title-->
+			<h1 class="d-flex align-items-center text-dark fw-bolder fs-3 my-1"><a class="text-dark" href="{% url 'home' %}">HOME</a>
+			<!--begin::Separator-->
+			<span class="h-20px border-gray-200 border-start ms-3 mx-2"></span>
+			<!--end::Separator-->
+			<!--begin::Description-->
+			<small class="text-muted fs-7 fw-bold my-1 ms-1">{{title|upper}}</small>
+			<!--end::Description--></h1>
+			<!--end::Title-->
+		</div>
+		<!--end::Page title-->
+		<!--begin::Actions-->
+		<div class="d-flex align-items-center gap-2 gap-lg-3">
+			<!--begin::Secondary button-->
+			<!--end::Secondary button-->
+			<!--begin::Primary button-->
+			
+			<!--end::Primary button-->
+		</div>
+		<!--end::Actions-->
+	</div>
+</div>
+<!--begin::Post-->
+<div class="post container-xxl">
+</div>
+						<div class="post d-flex flex-column-fluid" id="kt_post">
+							<!--begin::Container-->
+							<div id="kt_content_container" class="container-xxl">
+								<div class="row gy-5 g-xl-8 justify-content-center">
+									<div class="col-xl-3">
+										<a href="{% url 'reportAllEquipments' %}">
+										<div class="card mb-xl-8">
+											<!--begin::Body-->
+											<div class="card-body p-0">
+												<div class="d-flex flex-stack card-p flex-grow-1">
+													<span class="symbol symbol-50px me-2">
+														<span class="symbol-label bg-light-danger">
+															<!--begin::Svg Icon | path: icons/duotune/finance/fin001.svg-->
+															<span class="svg-icon svg-icon-2x svg-icon-success">
+																<i class="bi bi-folder"></i>
+															</span>
+															<!--end::Svg Icon-->
+														</span>
+													</span>
+													<div class="d-flex flex-column text-end">
+														<span class="text-dark fw-bolder fs-2">{{totalEkipamentu}}</span>
+														<span class="text-muted fw-bold mt-1">Total Ekipamentu</span>
+													</div>
+												</div>
+												<!-- <div class="statistics-widget-4-chart card-rounded-bottom" data-kt-chart-color="success" style="height: 150px"></div> -->
+											</div>
+											<!--end::Body-->
+										</div>
+										</a>
+									</div>
+									<div class="col-xl-3">
+										<div class="card mb-xl-8">
+											<!--begin::Body-->
+											<a href="{% url 'reportAllInventaria' %}">
+											<div class="card-body p-0">
+												<div class="d-flex flex-stack card-p flex-grow-1">
+													<span class="symbol symbol-50px me-2">
+														<span class="symbol-label bg-light-danger">
+															<!--begin::Svg Icon | path: icons/duotune/finance/fin001.svg-->
+															<span class="svg-icon svg-icon-2x svg-icon-success">
+																<i class="bi bi-gift"></i>
+															</span>
+															<!--end::Svg Icon-->
+														</span>
+													</span>
+													<div class="d-flex flex-column text-end">
+														<span class="text-dark fw-bolder fs-2">{{totalInventory}}</span>
+														<span class="text-muted fw-bold mt-1">Total Inventaria</span>
+													</div>
+												</div>
+												<!-- <div class="statistics-widget-4-chart card-rounded-bottom" data-kt-chart-color="success" style="height: 150px"></div> -->
+											</div>
+											</a>
+											<!--end::Body-->
+										</div>
+									</div>
+								</div>
+								<div class="row mt-3">
+									<div class="col-xl-3">
+										<a href="{% url 'reportEkipamentuUza' %}">
+										<div class="card bg-success text-white p-5 text-center align-items-center">
+										<h1 class="text-white">{{ekipamentuUzaHela}}</h1>
+										 Ekipamentu Uza Hela
+										</div>
+										</a>
+									</div>
+									<div class="col-xl-3">
+										<a href="{% url 'reportEkipamentuDisponivel' %}">
+										<div class="card bg-warning text-white p-5 text-center align-items-center">
+										<h1 class="text-white">{{ekipamentuDisponivel}}</h1>
+										 Ekipamentu Disponivel
+										</div>
+										</a>
+									</div>
+									<div class="col-xl-3">
+										<a href="{% url 'reportEkipamentuDiak' %}">
+										<div class="card bg-info text-white p-5 text-center align-items-center">
+										<h1 class="text-white">{{ekipamentuDiak}}</h1>
+										Ekipamentu Kondisaun Diak
+										</div>
+										</a>
+									</div>
+									<div class="col-xl-3">
+										<a href="{% url 'reportEkipamentuAat' %}">
+										<div class="card bg-dark text-white p-5 text-center align-items-center">
+										<h1 class="text-white">{{ekipamentuAat}}</h1>
+										Ekipamentu Kondisaun Aat
+										</div>
+										</a>
+									</div>
+								</div>
+								
+									
+								<div class="row mt-5 p-5">
+									<div class="col-xl-6">
+									<div class="card p-5">
+									    <h5 align="center">Grafiku Sumariu Status Ekipamentu</h5><hr/>
+									    <div id="container1">
+									      <canvas id="equipment_status_summ_Chart_data" width="463px" height="231px"></canvas>
+									    </div>
+									</div>
+									</div>
+									<div class="col-xl-6" style="height: 100px;">
+									<div class="card p-5">
+									    <h5 align="center">Grafiku Sumariu Kondisaun Ekipamentu</h5><hr/>
+									    <div id="container1 p-3">
+									      <canvas id="equipment_condition_summ_Chart_data" width="463px" height="231px"></canvas>
+									    </div>
+									</div>
+									</div>
+									
+									
+								</div>
+								<div class="row mt-5 p-5">
+									<div class="col-xl-6">
+									<div class="card p-5">
+									    <h5 align="center">Grafiku Sumariu Ekipamentu no Inventaria tuir Kategoria</h5><hr/>
+									    <div id="container1">
+									      <canvas id="gEquipmentInventariaByKategoria_data" width="463px" height="231px"></canvas>
+									    </div>
+									</div>
+									</div>
+									<div class="col-xl-6" style="height: 100px;">
+									<div class="card p-5">
+									    <h5 align="center">Grafiku Sumariu Ekipamentu no Inventaria tuir Doador</h5><hr/>
+									    <div id="container1 p-3">
+									      <canvas id="gEquipmentInventariaByDoador_data" width="463px" height="231px"></canvas>
+									    </div>
+									</div>
+									</div>
+									
+									
+								</div>
+								<div class="row mt-5 p-5">
+									<div class="col-xl-6">
+									<div class="card p-5">
+									    <h5 align="center">Grafiku Sumariu Doasaun Ekipamentu tuir Fulan Tinan Atual</h5><hr/>
+									    <div id="container1">
+									      <!-- <canvas id=""></canvas> -->
+									      <canvas id="gEquipmentByMonthThisYear_data" width="463px" height="231px"></canvas>
+									    </div>
+									</div>
+									</div>
+									<div class="col-xl-6">
+									<div class="card p-5">
+									    <h5 align="center">Grafiku Sumariu Ekipamentu Tama tuir Tinan</h5><hr/>
+									    <div id="container1">
+									      <!-- <canvas id=""></canvas> -->
+									      <canvas id="chartgekipamentutamatuirtinan_data" width="463px" height="231px"></canvas>
+									    </div>
+									</div>
+									</div>
+									
+									
+								</div>
+								<div class="row mt-5 p-5">
+									<div class="col-xl-6">
+									<div class="card p-5">
+									    <h5 align="center">Grafiku Sumariu Inventaria tuir Fulan Tinan Atual</h5><hr/>
+									    <div id="container1">
+									      <!-- <canvas id=""></canvas> -->
+									      <canvas id="gInventariaByMonthThisYear_data" width="463px" height="231px"></canvas>
+									    </div>
+									</div>
+									</div>
+									<div class="col-xl-6">
+									<div class="card p-5">
+									    <h5 align="center">Grafiku Sumariu Ekipamentu Tama tuir Tinan</h5><hr/>
+									    <div id="container1">
+									      <!-- <canvas id=""></canvas> -->
+									      <canvas id="gInventariaByYear_data" width="463px" height="231px"></canvas>
+									    </div>
+									</div>
+									</div>
+									
+									
+								</div>
+								
+							<!--end::Container-->
+						</div>
+						<!--end::Post-->
+<script src="{% static 'assets/js/jquery.min.js' %}"></script>
+<!-- charts -->
+<script src="{% static 'assets/js/chart.min.js' %}"></script>
+<script>
+  {% include 'charts_a/js/myoptions.js' %}
+  {% include 'charts_a/js/equipment_condition_summ.js' %}
+  {% include 'charts_a/js/equipment_status_summ.js' %}
+  {% include 'charts_a/js/equipment_tama_month_this_year_summ.js' %}
+  {% include 'charts_a/js/equipment_tama_tuir_tinan_summ.js' %}
+  {% include 'charts_a/js/sumariu_kategoria.js' %}
+  {% include 'charts_a/js/sumariu_doador.js' %}
+  {% include 'charts_a/js/inventaria_by_month_this_year_summ.js' %}
+  {% include 'charts_a/js/inventaria_by_year_summ.js' %}
+  
+  
+</script>
+
+{% endblock %}
+{% block script %}
+
+{% endblock %}

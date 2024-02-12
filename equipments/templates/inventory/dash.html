@@ -1,0 +1,383 @@
+{% extends 'main/base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block headStyle %}
+.zoom {
+  transition: transform .2s;
+  width: 100px;
+  height: 100px;
+  margin: 0 auto;
+}
+
+.zoom:hover {
+  -ms-transform: scale(2.5); /* IE 9 */
+  -webkit-transform: scale(2.5); /* Safari 3-8 */
+  transform: scale(2.5); 
+}
+{% endblock %}
+{% block content %}
+<div class="toolbar" id="kt_toolbar">
+	<div id="kt_toolbar_container" class="container-fluid d-flex flex-stack">
+		<!--begin::Page title-->
+		<div data-kt-swapper="true" data-kt-swapper-mode="prepend" data-kt-swapper-parent="{default: '#kt_content_container', 'lg': '#kt_toolbar_container'}" class="page-title d-flex align-items-center flex-wrap me-3 mb-5 mb-lg-0">
+			<!--begin::Title-->
+			<h1 class="d-flex align-items-center text-dark fw-bolder fs-3 my-1"><a class="text-dark" href="{% url 'home' %}">HOME</a>
+			<!--begin::Separator-->
+			<span class="h-20px border-gray-200 border-start ms-3 mx-2"></span>
+			{% if page != 'dash' %}
+			<h1 class="d-flex align-items-center text-dark fw-bolder fs-3 my-1"><a class="text-dark" href="{% url 'InventoryDash' %}">LISTA INVENTARIA</a>
+			<span class="h-20px border-gray-200 border-start ms-3 mx-2"></span>
+			{% endif %}
+			<!--end::Separator-->
+			<!--begin::Description-->
+			<small class="text-muted fs-7 fw-bold my-1 ms-1">{{title|upper}}</small>
+			<!--end::Description--></h1>
+			<!--end::Title-->
+		</div>
+		<!--end::Page title-->
+		<!--begin::Actions-->
+		<div class="d-flex align-items-center gap-2 gap-lg-3">
+			<!--begin::Secondary button-->
+			<!--end::Secondary button-->
+			<!--begin::Primary button-->
+			
+			<!--end::Primary button-->
+		</div>
+		<!--end::Actions-->
+	</div>
+</div>
+<!--begin::Post-->
+<div class="post container-xxl">
+{% if messages %}
+    {% for message in messages %} 
+        <div class="alert alert-{{ message.tags }} alert-dismissable">
+        	<div class="d-flex justify-content-between">
+          		{{message}}
+          		<button type="button" class="close btn btn-sm" data-dismiss="alert" aria-hidden="true"><span class="bi bi-x-square"></span></button>
+        	</div>
+        </div>
+    {% endfor %}
+{% endif %}
+</div>
+<div class="post d-flex flex-column-fluid" id="kt_post">
+	<!--begin::Container-->
+	{% if page == "dash" %}
+	
+	<div id="kt_content_container" class="container-xxl">
+		<div class="row gy-5 g-xl-8">
+			<div class="col-xl-4">
+				<!--begin::List Widget 3-->
+				<div class="card card-xl-stretch mb-xl-8">
+					<!--begin::Header-->
+					<div class="card-header border-0">
+						<h3 class="card-title fw-bolder text-dark">Kategoria</h3>
+					</div>
+					<!--end::Header-->
+					<!--begin::Body-->
+					<div class="card-body pt-2">
+						<!--begin::Item-->
+						{% for i in categorylist %}
+						<div class="d-flex align-items-center">
+							<!--begin::Bullet-->
+							<span class="bullet bullet-vertical h-40px bg-success"></span>
+							<!--end::Bullet-->
+							<!--begin::Checkbox-->
+							<div class="mx-5">
+								<span class="bi bi-check-circle"></span>
+							</div>
+							<!--end::Checkbox-->
+							<!--begin::Description-->
+							<div class="flex-grow-1">
+								<a href="{% url 'inventoryCategory' i.hashed %}" class="text-blue text-hover-dark fw-bolder fs-6">{{i.kategoria}}</a>
+								<span class="text-muted fw-bold d-block">Total Inventaria : {{i.totalinventory}}</span>
+							</div>
+							<!--end::Description-->
+							<!-- <span class="badge badge-light-success fs-8 fw-bolder">New</span> -->
+						</div>
+						{%endfor%}
+						<!--end:Item-->
+					</div>
+					<!--end::Body-->
+				</div>
+				<!--end:List Widget 3-->
+			</div>
+				<!--begin::Navbar-->
+			<div class="col-xl-8">
+				<div class="card mb-5 mb-xl-10">
+					<div class="d-flex justify-content-end">
+						<!-- <a class="m-3 btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#modal_id_create_inventory"><i class="bi bi-plus-circle"></i> Rejista Kuantidade Inventaria</a> -->
+						{% if group == "Admin" or group == "Administracao Laboratorio" or group == "Cordenador Laboratorio" %}
+						<a class="m-3 btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#modal_id_create_inventory"><i class="bi bi-plus-circle"></i> Rejista Inventaria Foun</a>
+						{%endif%}
+					</div>
+
+					<div class="card-body pt-9 pb-0">
+						<!--begin::Table container-->
+						<div class="table-responsive">
+							<!--begin::Table-->
+							<table id="example" class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
+								<!--begin::Table head-->
+								<thead>
+									<tr class="fw-bolder text-muted">
+										<th class="min-w-10px">Nu.</th>
+										<th class="min-w-140px">Naran Inventaria</th>
+										<th class="min-w-120px">Data Simu</th>
+										<th class="min-w-120px">Marka</th>
+										<th class="min-w-120px">Kategoria</th>
+										<th class="min-w-120px">Doador</th>
+										<th class="min-w-120px text-center">Kuantidade</th>
+										<th class="min-w-100px text-center">Actions</th>
+									</tr>
+								</thead>
+								<!--end::Table head-->
+								<!--begin::Table body-->
+								<tbody>
+									{% for obj in objects %}
+									<tr>
+										<td>
+												{{forloop.counter}}
+										</td>
+										<td data-title="Username">
+											<div class="d-flex align-items-center">
+												<div class="symbol symbol-45px me-5">
+													{% if obj.image %}
+													<img src="{{obj.image.url}}" alt="" class="zoom"/>
+													{% else %}
+													<img src="{% static 'assets/media/avatars/blank.png' %}" alt="No Photo" class="zoom" />
+													{% endif %}
+												</div>
+												<div class="d-flex justify-content-start flex-column">
+													<a href="#" class="text-dark fw-bolder text-hover-primary fs-6">{{ obj.naran }}</a>
+												</div>
+											</div>
+										</td>
+                                    	<td data-title="Group">{{ obj.dataTama|date:"d/m/Y" }}</td>
+                                    	<td data-title="Email">{{ obj.marka }}</td>
+                                    	<td data-title="Email">{{ obj.kategoria.kategoria }}</td>
+                                    	<td data-title="Email">{{ obj.doador.kodigu }}</td>
+                                    	<td data-title="Email" class="text-center">{{ obj.inventoryStock.total_stock }}</td>
+										<td class="text-center">
+											<div class="m-0">
+												<a class="btn btn-sm btn-light btn-active-light-primary d-flex justify-content-between" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" data-kt-menu-overflow="true">
+													<span class="">Asaun </span><i class="mt-1 bi bi-chevron-down"></i>
+												</a>
+												<div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg-light-primary fw-bold w-200px" data-kt-menu="true">
+													<div class="menu-item px-3 mt-2">
+														<a href="{% url 'detailInventory' obj.hashed %}" class="menu-link px-3"><i class="bi bi-eye mx-2"></i> Detallu</a>
+													</div>
+													{% if group == "Admin" or group == "Administracao Laboratorio" or group == "Cordenador Laboratorio" %}
+													<div class="menu-item px-3">
+														<a href="#" class="menu-link px-3" data-bs-toggle="modal" data-bs-target="#modal_id_update_inventory-{{obj.hashed}}"><i class="bi bi-pencil-square mx-2"></i> Altera</a>
+													</div>
+													{%endif%}
+													
+													<br>
+												</div>
+											</div>
+										</td>
+									</tr>
+									{% include 'inventory/inventory_modal1.html' %}
+									
+
+									{%endfor%}
+								</tbody>
+								<!--end::Table body-->
+							</table>
+							<!--end::Table-->
+						</div>
+						<!--end::Table container-->
+					</div>
+				</div>
+				<!--end::Navbar-->
+			</div>
+		</div>
+	</div>
+	{% include 'inventory/inventory_modal.html' %}
+	<!--end::Container-->
+	{% elif page == "detail" %}
+	<div id="kt_content_container" class="container-xxl">
+		<div class="row gy-5 g-xl-8">
+			<div class="col-xl-4">
+				<div class="card card-xl-stretch mb-xl-8">
+					<!--begin::Header-->
+					<div class="card-header border-0">
+						<h3 class="card-title fw-bolder text-dark">Detallu Inventaria</h3>
+						<div class="card-toolbar">
+							<!--begin::Menu-->
+							<button type="button" class="btn btn-sm btn-icon btn-color-primary btn-active-light-primary" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+								<!--begin::Svg Icon | path: icons/duotune/general/gen024.svg-->
+								<span class="svg-icon svg-icon-2">
+									<svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24">
+										<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+											<rect x="5" y="5" width="5" height="5" rx="1" fill="#000000" />
+											<rect x="14" y="5" width="5" height="5" rx="1" fill="#000000" opacity="0.3" />
+											<rect x="5" y="14" width="5" height="5" rx="1" fill="#000000" opacity="0.3" />
+											<rect x="14" y="14" width="5" height="5" rx="1" fill="#000000" opacity="0.3" />
+										</g>
+									</svg>
+								</span>
+								<!--end::Svg Icon-->
+							</button>
+							<!--begin::Menu 2-->
+							<div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg-light-primary fw-bold w-200px" data-kt-menu="true">
+								
+								<!--begin::Menu separator-->
+								<div class="separator mb-3 opacity-75"></div>
+								<!--end::Menu separator-->
+								<!--begin::Menu item-->
+								<div class="menu-item px-3">
+									{% if group == "Admin" or group == "Administracao Laboratorio" or group == "Cordenador Laboratorio" %}
+									<a href="#" data-bs-toggle="modal" data-bs-target="#modal_id_update_inventory-{{objects.hashed}}" class="menu-link px-3"><i class="bi bi-pencil-square mx-2"></i> Update</a>
+									{%endif%}
+								</div>
+								
+								<div class="separator mt-3 opacity-75"></div>
+								<!--end::Menu item-->
+								<!--end::Menu separator-->
+								
+							</div>
+							<!--end::Menu 2-->
+							<!--end::Menu-->
+						</div>
+					</div>
+					<!--end::Header-->
+					<!--begin::Body-->
+					<div class="card-body pt-2">
+						<!--begin::Item-->
+						<div class="d-flex align-items-center mb-7">
+							<!--begin::Text-->
+							<div class="flex-grow-1">
+								<a href="#" class="text-dark fw-bolder text-hover-primary fs-6">{{objects.naran|upper}}</a>
+								<span class="text-muted d-block fw-bold">Naran Inventaria</span>
+							</div>
+							<!--end::Text-->
+						</div>
+						<!--end::Item-->
+						
+						<!--begin::Item-->
+						<div class="d-flex align-items-center mb-7">
+							<!--begin::Text-->
+							<div class="flex-grow-1">
+								<a href="#" class="text-dark fw-bolder text-hover-primary fs-6">{{objects.marka|upper}}</a>
+								<span class="text-muted d-block fw-bold">Marka</span>
+							</div>
+							<!--end::Text-->
+						</div>
+						<!--end::Item-->
+						<!--begin::Item-->
+						<div class="d-flex align-items-center mb-7">
+							<!--begin::Text-->
+							<div class="flex-grow-1">
+								<a href="#" class="text-dark fw-bolder text-hover-primary fs-6">{{objects.kategoria.kategoria|upper}}</a>
+								<span class="text-muted d-block fw-bold">Kategoria</span>
+							</div>
+							<!--end::Text-->
+						</div>
+						<!--end::Item-->
+						<!--begin::Item-->
+						<div class="d-flex align-items-center mb-7">
+							<!--begin::Text-->
+							<div class="flex-grow-1">
+								<a href="#" class="text-dark fw-bolder text-hover-primary fs-6">{{objects.dataTama}}</a>
+								<span class="text-muted d-block fw-bold">Data Simu</span>
+							</div>
+							<!--end::Text-->
+						</div>
+						<!--end::Item-->
+						<!--begin::Item-->
+						<div class="d-flex align-items-center">
+							<!--begin::Text-->
+							<div class="flex-grow-1">
+								<a href="#" class="text-dark fw-bolder text-hover-primary fs-6">{{objects.doador.doador|upper}}</a>
+								<span class="text-muted d-block fw-bold">Doador</span>
+							</div>
+							<!--end::Text-->
+						</div>
+						<!--begin::Item-->
+						<div class="d-flex align-items-center mb-7">
+							<!--begin::Text-->
+							<div class="flex-grow-1">
+								<img src="{{objects.image.url}}" width="100%">
+							</div>
+							<!--end::Text-->
+						</div>
+						<!--end::Item-->
+						<!--end::Item-->
+					</div>
+					<!--end::Body-->
+				</div>
+			</div>
+			<div class="col-xl-8">
+				<div class="card mb-5 mb-xl-10">
+					<div class="d-flex justify-content-end">
+						{% if group == "Admin" or group == "Administracao Laboratorio" or group == "Cordenador Laboratorio" %}
+						<a href="#" class="m-3 btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#modal_id_rejista_kuantidade_tama"><i class="bi bi-plus-circle"></i> Rejista Kuantidade Tama</a>
+						{%endif%}
+					</div>
+					<div class="card-body pt-9 pb-0">
+						<!--begin::Table container-->
+						<div class="table-responsive">
+							<!--begin::Table-->
+							<table id="example1" class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
+								<!--begin::Table head-->
+								<thead>
+									<tr class="fw-bolder text-muted">
+										<th class="min-w-10px">Nu.</th>
+										<th class="min-w-140px">Inventaria	</th>
+										<th class="min-w-120px">Data</th>
+										<th class="min-w-120px">Tama</th>
+										<th class="min-w-120px">Sai</th>
+										<th class="min-w-120px">Stock</th>
+										<!-- <th class="min-w-100px text-center">Actions</th> -->
+									</tr>
+								</thead>
+								<!--end::Table head-->
+								<!--begin::Table body-->
+								<tbody>
+									{% for obj in objects1 %}
+									<tr>
+										<td>
+												{{forloop.counter}}
+										</td>
+										<td data-title="Username">
+											
+													<a href="#" class="text-dark fw-bolder text-hover-primary fs-6">{{ obj.inventory.naran }}</a>
+										
+										</td>
+                                    	<td data-title="Group">{{ obj.data }}</td>
+                                    	<td data-title="Email">{{ obj.total_tama }}</td>
+                                    	<td data-title="Email">{{ obj.total_sai }}</td>
+                                    	<td data-title="Email">{{ obj.total }}</td>
+										
+									</tr>
+									{% include 'inventory/inventory_modal1.html' %}
+									
+
+									{%endfor%}
+								</tbody>
+								<!--end::Table body-->
+							</table>
+							<!--end::Table-->
+						</div>
+						<!--end::Table container-->
+					</div>
+				</div>
+				<!--end::Navbar-->
+			</div>
+		</div>
+	</div>
+	{% include 'inventory/inventory_modal1.html' %}
+	{% include 'inventory/inventory_modal.html' %}
+	{% endif %}
+</div>
+<!--end::Post-->
+{% endblock %}
+
+{% block script %}
+	{% if page == 'dash' %}
+		{% include 'exports_custom1.html' %}
+	{% elif page == 'detail' %}
+		{% include 'exports_custom2.html' %}
+	{% endif %}
+{% endblock %}
+
